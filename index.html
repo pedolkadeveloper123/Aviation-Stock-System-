@@ -1,209 +1,154 @@
-<!DOCTYPE html><html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html><html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JF Aviation - Controle de Materiais</title>
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
-  background-color: #c62828;
-  color: white;
+  background-color: #d32f2f;
+  color: #fff;
+  padding: 1rem;
   text-align: center;
-  padding: 1rem 0;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
 main {
-  max-width: 900px;
-  margin: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 1rem;
 }
 
-form {
-  background: white;
+.form-container,
+.filter-container {
+  background-color: white;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+
+form {
   display: grid;
-  gap: 0.5rem;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
 }
 
 form input,
 form select,
-form textarea,
 form button {
   padding: 0.5rem;
   font-size: 1rem;
-  border-radius: 4px;
-  border: 1px solid #ccc;
 }
 
-form button {
-  grid-column: 1 / -1;
-  background-color: #c62828;
+button {
+  background-color: #d32f2f;
   color: white;
   border: none;
   cursor: pointer;
-}
-
-form button:hover {
-  background-color: #b71c1c;
+  grid-column: span 2;
+  border-radius: 5px;
 }
 
 .filters {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5rem;
-  margin: 1rem 0;
 }
 
-.filters input,
-.filters select {
-  flex: 1;
-  min-width: 150px;
+@media(min-width: 600px) {
+  .filters {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
-.card {
-  background: white;
+.item-list {
+  background-color: white;
   padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px;
 }
 
-.card img {
-  max-width: 100%;
-  max-height: 200px;
-  display: block;
-  margin-top: 0.5rem;
+.item {
+  border-left: 5px solid green;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
 }
 
 footer {
   background-color: #212121;
-  color: #ccc;
+  color: white;
   text-align: center;
   padding: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
   </style>
-</head>
-<body>
+</head><body>
   <header>
     JF Aviation - Controle de Materiais
   </header>
   <main>
-    <form id="itemForm">
-      <input type="text" placeholder="AWB" id="awb" required />
-      <input type="text" placeholder="Part Number (PN)" id="pn" required />
-      <input type="text" placeholder="Serial Number" id="serial" />
-      <input type="number" placeholder="Quantidade" id="quantidade" required />
-      <input type="text" placeholder="Aeronave" id="aeronave" required />
-      <select id="status">
-        <option>Recebido</option>
-        <option>Exportado</option>
-        <option>Em Estoque</option>
-      </select>
-      <input type="text" placeholder="Destino" id="destino" />
-      <input type="text" placeholder="Descrição" id="descricao" />
-      <input type="file" id="foto" accept="image/*" />
-      <button type="submit">Adicionar Item</button>
-    </form><div class="filters">
-  <input type="text" id="filterPN" placeholder="Filtrar por PN" />
-  <input type="text" id="filterAeronave" placeholder="Filtrar por Aeronave" />
-  <select id="filterStatus">
-    <option value="">Todos os Status</option>
-    <option value="Recebido">Recebido</option>
-    <option value="Exportado">Exportado</option>
-    <option value="Em Estoque">Em Estoque</option>
-  </select>
+    <div class="form-container">
+      <form id="itemForm">
+        <input type="text" placeholder="AWB" required>
+        <input type="text" placeholder="Part Number (PN)" required>
+        <input type="text" placeholder="Serial Number">
+        <input type="number" placeholder="Quantidade" required>
+        <input type="text" placeholder="Aeronave" required>
+        <select>
+          <option>Recebido</option>
+          <option>Exportado</option>
+          <option>Separado</option>
+        </select>
+        <input type="text" placeholder="Destino">
+        <input type="text" placeholder="Descrição">
+        <input type="file">
+        <button type="submit">Adicionar Item</button>
+      </form>
+    </div><div class="filter-container">
+  <div class="filters">
+    <input type="text" placeholder="Filtrar por PN">
+    <input type="text" placeholder="Filtrar por Aeronave">
+    <select>
+      <option>Todos os Status</option>
+      <option>Recebido</option>
+      <option>Exportado</option>
+      <option>Separado</option>
+    </select>
+  </div>
 </div>
 
-<div id="itemList"></div>
+<div class="item-list">
+  <div class="item">
+    <strong>AWB:</strong> 000 | <strong>PN:</strong> 000 | <strong>Serial:</strong> 00<br>
+    <strong>Qtd:</strong> 8 | <strong>Aeronave:</strong> 2-prmpd<br>
+    <strong>Destino:</strong> Hangar | <strong>Status:</strong> Recebido<br>
+    <strong>Data Recebimento:</strong> 2025-07-24<br>
+    <strong>Descrição:</strong> Elt
+  </div>
+</div>
 
   </main>
   <footer>
     © 2025 JF Aviation | Sistema de Suprimentos e Ferramentaria
-  </footer>  <script>
-    const itemForm = document.getElementById("itemForm");
-    const itemList = document.getElementById("itemList");
-    const filterPN = document.getElementById("filterPN");
-    const filterAeronave = document.getElementById("filterAeronave");
-    const filterStatus = document.getElementById("filterStatus");
-
-    let items = JSON.parse(localStorage.getItem("materiais")) || [];
-
-    function renderItems() {
-      itemList.innerHTML = "";
-      items
-        .filter(
-          (item) =>
-            (!filterPN.value || item.pn.includes(filterPN.value)) &&
-            (!filterAeronave.value || item.aeronave.includes(filterAeronave.value)) &&
-            (!filterStatus.value || item.status === filterStatus.value)
-        )
-        .forEach((item) => {
-          const div = document.createElement("div");
-          div.className = "card";
-          div.innerHTML = `
-            <strong>AWB:</strong> ${item.awb} | <strong>PN:</strong> ${item.pn} | <strong>Serial:</strong> ${item.serial} <br>
-            <strong>Qtd:</strong> ${item.quantidade} | <strong>Aeronave:</strong> ${item.aeronave}<br>
-            <strong>Destino:</strong> ${item.destino} | <strong>Status:</strong> ${item.status}<br>
-            <strong>Data Recebimento:</strong> ${item.data}<br>
-            <strong>Descrição:</strong> ${item.descricao}
-            ${item.foto ? `<img src="${item.foto}" alt="Foto do Item" />` : ""}
-          `;
-          itemList.appendChild(div);
-        });
-    }
-
-    itemForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const newItem = {
-        awb: document.getElementById("awb").value,
-        pn: document.getElementById("pn").value,
-        serial: document.getElementById("serial").value,
-        quantidade: document.getElementById("quantidade").value,
-        aeronave: document.getElementById("aeronave").value,
-        status: document.getElementById("status").value,
-        destino: document.getElementById("destino").value,
-        descricao: document.getElementById("descricao").value,
-        data: new Date().toISOString().split("T")[0],
-        foto: ""
-      };
-
-      const file = document.getElementById("foto").files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          newItem.foto = reader.result;
-          items.push(newItem);
-          localStorage.setItem("materiais", JSON.stringify(items));
-          renderItems();
-          itemForm.reset();
-        };
-        reader.readAsDataURL(file);
-      } else {
-        items.push(newItem);
-        localStorage.setItem("materiais", JSON.stringify(items));
-        renderItems();
-        itemForm.reset();
-      }
-    });
-
-    filterPN.addEventListener("input", renderItems);
-    filterAeronave.addEventListener("input", renderItems);
-    filterStatus.addEventListener("change", renderItems);
-
-    renderItems();
-  </script></body>
-</html>
+  </footer>
+</body></html>
