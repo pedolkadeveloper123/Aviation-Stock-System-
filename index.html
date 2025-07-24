@@ -1,23 +1,20 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JF Aviation - Controle de Materiais</title>
   <style>
-    * {
-      box-sizing: border-box;
+    body {
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-    }body {
-  background-color: #f7f7f7;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-header {
-  background-color: #d32f2f;
-  color: #fff;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }header {
+  background-color: #d10000;
+  color: white;
   padding: 1rem;
   text-align: center;
   font-size: 1.5rem;
@@ -26,129 +23,140 @@ header {
 
 main {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
-.form-container,
-.filter-container {
+.container {
+  width: 100%;
+  max-width: 800px;
   background-color: white;
-  padding: 1rem;
+  padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 700px;
-  margin-bottom: 1rem;
 }
 
 form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-form input,
-form select,
-form button {
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-
-button {
-  background-color: #d32f2f;
-  color: white;
-  border: none;
-  cursor: pointer;
-  grid-column: span 2;
+form input, form select {
+  padding: 0.7rem;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.filters {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+form .full-width {
+  grid-column: 1 / -1;
 }
 
-@media(min-width: 600px) {
-  .filters {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+button {
+  grid-column: 1 / -1;
+  padding: 0.9rem;
+  background-color: #d10000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.item-list {
-  background-color: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 700px;
+button:hover {
+  background-color: #a60000;
+}
+
+.list {
+  margin-top: 2rem;
 }
 
 .item {
-  border-left: 5px solid green;
+  background-color: #f9f9f9;
+  padding: 1rem;
   margin-bottom: 1rem;
-  padding-left: 1rem;
+  border-left: 5px solid #4caf50;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 footer {
-  background-color: #212121;
-  color: white;
+  background-color: #111;
+  color: #fff;
   text-align: center;
   padding: 1rem;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  form {
+    grid-template-columns: 1fr;
+  }
 }
 
   </style>
-</head><body>
+</head>
+<body>
   <header>
     JF Aviation - Controle de Materiais
   </header>
   <main>
-    <div class="form-container">
-      <form id="itemForm">
-        <input type="text" placeholder="AWB" required>
-        <input type="text" placeholder="Part Number (PN)" required>
-        <input type="text" placeholder="Serial Number">
-        <input type="number" placeholder="Quantidade" required>
-        <input type="text" placeholder="Aeronave" required>
-        <select>
-          <option>Recebido</option>
-          <option>Exportado</option>
-          <option>Separado</option>
-        </select>
-        <input type="text" placeholder="Destino">
-        <input type="text" placeholder="Descrição">
-        <input type="file">
+    <div class="container">
+      <form id="materialForm">
+        <input type="text" id="awb" placeholder="AWB" required />
+        <input type="text" id="pn" placeholder="Part Number (PN)" required />
+        <input type="text" id="serial" placeholder="Serial Number" />
+        <input type="number" id="quantidade" placeholder="Quantidade" required />
+        <input type="text" id="aeronave" placeholder="Aeronave" required />
+        <input type="text" id="destino" placeholder="Destino" required />
+        <input type="text" id="descricao" placeholder="Descrição" class="full-width" required />
+        <input type="file" id="arquivo" class="full-width" />
         <button type="submit">Adicionar Item</button>
-      </form>
-    </div><div class="filter-container">
-  <div class="filters">
-    <input type="text" placeholder="Filtrar por PN">
-    <input type="text" placeholder="Filtrar por Aeronave">
-    <select>
-      <option>Todos os Status</option>
-      <option>Recebido</option>
-      <option>Exportado</option>
-      <option>Separado</option>
-    </select>
-  </div>
-</div>
-
-<div class="item-list">
-  <div class="item">
-    <strong>AWB:</strong> 000 | <strong>PN:</strong> 000 | <strong>Serial:</strong> 00<br>
-    <strong>Qtd:</strong> 8 | <strong>Aeronave:</strong> 2-prmpd<br>
-    <strong>Destino:</strong> Hangar | <strong>Status:</strong> Recebido<br>
-    <strong>Data Recebimento:</strong> 2025-07-24<br>
-    <strong>Descrição:</strong> Elt
-  </div>
+      </form><div class="list" id="listaItens"></div>
 </div>
 
   </main>
   <footer>
-    © 2025 JF Aviation | Sistema de Suprimentos e Ferramentaria
-  </footer>
-</body></html>
+    &copy; 2025 JF Aviation | Sistema de Suprimentos e Ferramentaria
+  </footer>  <script>
+    const form = document.getElementById('materialForm');
+    const lista = document.getElementById('listaItens');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const now = new Date();
+      const data = now.toLocaleDateString();
+      const hora = now.toLocaleTimeString();
+
+      const item = {
+        awb: form.awb.value,
+        pn: form.pn.value,
+        serial: form.serial.value,
+        quantidade: form.quantidade.value,
+        aeronave: form.aeronave.value,
+        destino: form.destino.value,
+        descricao: form.descricao.value,
+        data: data,
+        hora: hora
+      };
+
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `
+        <strong>AWB:</strong> ${item.awb}<br>
+        <strong>PN:</strong> ${item.pn} | <strong>Serial:</strong> ${item.serial}<br>
+        <strong>Qtd:</strong> ${item.quantidade} | <strong>Aeronave:</strong> ${item.aeronave}<br>
+        <strong>Destino:</strong> ${item.destino}<br>
+        <strong>Data:</strong> ${item.data} | <strong>Hora:</strong> ${item.hora}<br>
+        <strong>Descrição:</strong> ${item.descricao}
+      `;
+      lista.prepend(div);
+
+      form.reset();
+    });
+  </script></body>
+</html>
