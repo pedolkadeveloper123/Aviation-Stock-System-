@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Suplementos e Ferramentaria</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f2f2f2; }
+    h1 { text-align: center; color: #333; }
+    .container { max-width: 1000px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    input, textarea, select { width: 100%; padding: 10px; margin: 5px 0 15px; border: 1px solid #ccc; border-radius: 5px; }
+    button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    .item-list { margin-top: 30px; }
+    .item { background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #ddd; }
+    .item img { max-width: 100px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sistema de Suplementos e Ferramentaria</h1><form id="formulario">
+  <input type="text" id="awb" placeholder="AWB (Número da Guia Aérea)" required />
+  <input type="text" id="pn" placeholder="Part Number (PN)" required />
+  <input type="text" id="serial" placeholder="Serial Number" required />
+  <input type="number" id="quantidade" placeholder="Quantidade" required />
+  <input type="text" id="aeronave" placeholder="Aeronave (ex: PT-XYZ)" required />
+  <textarea id="descricao" placeholder="Descrição do Item" required></textarea>
+  <select id="status">
+    <option value="Recebido">Recebido</option>
+    <option value="Exportado">Exportado</option>
+    <option value="Em Estoque">Em Estoque</option>
+  </select>
+  <input type="date" id="dataRecebimento" required />
+  <input type="text" id="destino" placeholder="Destino (ex: Ribeirão Preto, Exterior, etc.)" required />
+  <input type="file" id="foto" accept="image/*" />
+  <button type="submit">Salvar Item</button>
+</form>
+
+<div class="item-list" id="listaItens"></div>
+
+  </div>  <script>
+    const form = document.getElementById('formulario');
+    const listaItens = document.getElementById('listaItens');
+    const dados = [];
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const awb = document.getElementById('awb').value;
+      const pn = document.getElementById('pn').value;
+      const serial = document.getElementById('serial').value;
+      const quantidade = document.getElementById('quantidade').value;
+      const aeronave = document.getElementById('aeronave').value;
+      const descricao = document.getElementById('descricao').value;
+      const status = document.getElementById('status').value;
+      const dataRecebimento = document.getElementById('dataRecebimento').value;
+      const destino = document.getElementById('destino').value;
+      const fotoInput = document.getElementById('foto');
+
+      let fotoURL = '';
+      if (fotoInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          fotoURL = e.target.result;
+          salvarItem(awb, pn, serial, quantidade, aeronave, descricao, status, dataRecebimento, destino, fotoURL);
+        };
+        reader.readAsDataURL(fotoInput.files[0]);
+      } else {
+        salvarItem(awb, pn, serial, quantidade, aeronave, descricao, status, dataRecebimento, destino, '');
+      }
+
+      form.reset();
+    });
+
+    function salvarItem(awb, pn, serial, quantidade, aeronave, descricao, status, dataRecebimento, destino, fotoURL) {
+      const item = { awb, pn, serial, quantidade, aeronave, descricao, status, dataRecebimento, destino, fotoURL, dataCadastro: new Date().toLocaleString() };
+      dados.push(item);
+      renderLista();
+    }
+
+    function renderLista() {
+      listaItens.innerHTML = '';
+      dados.forEach((item) => {
+        listaItens.innerHTML += `
+          <div class="item">
+            <strong>AWB:</strong> ${item.awb}<br>
+            <strong>PN:</strong> ${item.pn}<br>
+            <strong>Serial:</strong> ${item.serial}<br>
+            <strong>Quantidade:</strong> ${item.quantidade}<br>
+            <strong>Aeronave:</strong> ${item.aeronave}<br>
+            <strong>Status:</strong> ${item.status}<br>
+            <strong>Descrição:</strong> ${item.descricao}<br>
+            <strong>Data de Recebimento:</strong> ${item.dataRecebimento}<br>
+            <strong>Destino:</strong> ${item.destino}<br>
+            <strong>Data de Cadastro:</strong> ${item.dataCadastro}<br>
+            ${item.fotoURL ? `<img src="${item.fotoURL}" alt="Foto do item" />` : ''}
+          </div>
+        `;
+      });
+    }
+  </script></body>
+</html>
